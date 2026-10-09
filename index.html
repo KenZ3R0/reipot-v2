@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Our Little Timeline</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme-picker.css">
+    <script>
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
+        window.addEventListener('pageshow', () => {
+            window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        });
+
+        const formatMonthYear = (date) => {
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                month: 'long',
+                year: 'numeric'
+            });
+            return formatter.format(date);
+        };
+
+        const updateTimelineMeta = () => {
+            const dateNodes = Array.from(document.querySelectorAll('.cards-grid .date'));
+            if (dateNodes.length === 0) {
+                return;
+            }
+
+            const parsedDates = dateNodes
+                .map((node) => new Date(node.textContent.trim()))
+                .filter((date) => !Number.isNaN(date.getTime()))
+                .sort((a, b) => a - b);
+
+            if (parsedDates.length === 0) {
+                return;
+            }
+
+            const firstDate = parsedDates[0];
+            const lastDate = parsedDates[parsedDates.length - 1];
+
+            const entriesPill = document.getElementById('entries-pill');
+            const rangePill = document.getElementById('range-pill');
+
+            if (entriesPill) {
+                const suffix = dateNodes.length === 1 ? 'entry' : 'entries';
+                entriesPill.textContent = `${dateNodes.length} ${suffix}`;
+            }
+
+            if (rangePill) {
+                rangePill.textContent = `${formatMonthYear(firstDate)} to ${formatMonthYear(lastDate)}`;
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', updateTimelineMeta);
+    </script>
+</head>
+
+<body data-theme="forest">
+    <div class="bg-orb bg-orb-1" aria-hidden="true"></div>
+    <div class="bg-orb bg-orb-2" aria-hidden="true"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+
+    <div class="theme-picker" role="group" aria-label="Theme selector">
+        <select id="themeSelectHome" data-theme-select aria-label="Choose theme">
+            <option value="forest">Forest</option>
+            <option value="crimson">Crimson</option>
+        </select>
+    </div>
+
+    <div class="selection-container">
+        <header class="hero">
+            <h1>When coding is your love language~</h1>
+            <p class="hero-description">A little timeline of the memories I made for my favorite kupal.</p>
+            <div class="hero-meta" aria-label="Timeline summary">
+                <span class="meta-pill" id="entries-pill">3 entries</span>
+                <span class="meta-pill" id="range-pill">April 2026 to October 2026</span>
+            </div>
+        </header>
+
+        <div class="layout-shell">
+            <aside class="memory-rail" aria-label="Journey summary">
+                <p class="rail-label">PARA SA BABI KONG MAKULIT</p>
+                <h2 class="rail-title">For every little memory.</h2>
+                <p class="rail-copy">
+                    Three little projects for now. More memories to be added, because apparently one website is never enough. HAHAHAHA.
+                </p>
+            </aside>
+
+            <section class="cards-grid" aria-label="Memory cards">
+                <a class="selection-item featured" href="https://kenz3r0.github.io/HBD/">
+                    <div class="card-head">
+                        <div class="title">Your Birthday</div>
+                        <span class="card-index">01</span>
+                    </div>
+                    <div class="description">
+                        A little birthday corner made specially for my favorite person.
+                    </div>
+                    <pre class="date"> July 16, 2026</pre>
+                </a>
+
+                <a class="selection-item" href="https://kenz3r0.github.io/1st-Month-/">
+                    <div class="card-head">
+                        <div class="title">1st Monthsary</div>
+                        <span class="card-index">02</span>
+                    </div>
+                    <div class="description">
+                        Our first monthsary — one month of yapping, lambingan, and choosing each other.
+                    </div>
+                    <pre class="date">September 8, 2026</pre>
+                </a>
+
+                <a class="selection-item" href="https://kenz3r0.github.io/Second-Monthsary/">
+                    <div class="card-head">
+                        <div class="title">2nd Monthsary</div>
+                        <span class="card-index">03</span>
+                    </div>
+                    <div class="description">
+                        Our 2nd monthsary — 2nd month of kupalan with you.
+                    </div>
+                    <pre class="date">October 8, 2026</pre>
+                </a>
+            </section>
+        </div>
+
+        <footer class="signature">
+            <pre>Made with ❤️ for my Babi</pre>
+        </footer>
+        <div class="spacer"></div>
+    </div>
+
+    <div class="link-actions">
+        <a href="https://github.com/kenz3r0" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <img src="media/icon/github-mark.svg" alt="GitHub" width="32" height="32" title="GitHub">
+        </a>
+    </div>
+
+    <script src="theme-switcher.js"></script>
+</body>
+
+</html>
